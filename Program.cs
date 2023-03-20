@@ -1,7 +1,13 @@
+global using Microsoft.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations;
+global using System.Linq.Expressions;
+global using System.ComponentModel.DataAnnotations.Schema;
 using Parcial2_AP1_GreilynPolanco.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var ConStr = builder.Configuration.GetConnectionString("ConStr");
+builder.Services.AddDbContext<Contexto>(opcion => opcion.UseSqlite(ConStr));
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
