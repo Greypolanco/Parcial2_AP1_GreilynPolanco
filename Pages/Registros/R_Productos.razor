@@ -1,0 +1,137 @@
+@page "/productos"
+
+@inject ProductosBLL productobll
+<EditForm Model="producto" >
+    <DataAnnotationsValidator/>
+    <div class="card">
+        <div class="card-header">
+            <h1>Entrada de Productos Empacados</h1>
+        </div>
+        <div class="card-body">
+            
+            <div class='col-md-6'>
+                <label class="form-label">No. Producto</label>
+                <InputNumber id="numero" @bind-Value="producto.ProductoId" class="form-control"></InputNumber>
+                <button id="buscar" type="button" class="btn btn-info oi oi-magnifying-glass"></button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Fecha</label>
+                <InputDate  id="Fecha" @bind-Value="producto.Fecha" class="form-control"/>
+            </div>
+            <div>
+                <label class="form-label">Concepto</label>
+                <InputText @bind-Value="producto.Concepto" class="form-control"></InputText>
+            </div>
+        </div>
+        
+            <div class="card">
+                <div class="card-header">
+                    <h3>Utilizados</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Productos</label>
+                            <InputSelect @bind-Value=detalle.ProductoId class='form-control'>
+                                @foreach (Productos producto in Lista)
+                                {
+                                    <option value="@producto.ProductoId">@producto.Concepto</option>  
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="from-label">Cantidad</label>
+                            <InputNumber @bind-Value="detalle.Cantidad" class="form-control"></InputNumber>
+                        </div>
+                        <div class="cold-md-6">
+                            <button type="button" class="btn btn-success oi oi-plus" @onclick="AggDetalle"></button>
+                        </div>
+                    </div>
+                    <label class="form-label">Peso Total</label>
+                    <InputNumber @bind-Value="detalle.Peso" class="form-control"></InputNumber>
+                    
+                    <table class="table">
+                        <thead>
+                            <th>Producto</th>
+                            <th>Descripcion</th>
+                            <th>Cantidad</th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            @foreach(var Item in producto.ProductosDetalle)
+                            {
+                                <tr>
+                                    <td>@Item.ProductoId</td>
+                                    <td>@Item.Descripcion</td>
+                                    <td>@Item.Cantidad</td>
+                                    <td><button class="btn btn-sm btn-outline-secondary io io-x" @onclick=@(() => EliminarDetalle(Item))></button></td>
+                                    <td>@Item.DetalleId</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                    <div class="card">
+                        <h1>Producidos</h1>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Productos</label>
+                                    <InputSelect @bind-Value=detalle.ProductoId class='form-control'>
+                                    @foreach (Productos producto in Lista)
+                                    {
+                                        <option value="@producto.ProductoId">@producto.Concepto</option>
+                                    }
+                                    </InputSelect>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="from-label">Cantidad</label>
+                                    <InputNumber @bind-Value="detalle.Cantidad" class="form-control" readonly></InputNumber>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary">Nuevo</button>
+            <button type="button" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-danger">Eliminar</button>
+            
+        </div>
+    </div>
+</EditForm>
+
+
+@code{
+    public Productos producto { get; set; } = new Productos();
+    public List<Productos> Lista { get; set; } = new List<Productos>();
+    public ProductosDetalle detalle { get; set; } = new ProductosDetalle();
+    
+    protected override void OnInitialized()
+    {
+        Lista = productobll.GetList(p => true);
+    }
+
+    void AggDetalle()
+    { 
+        producto.ProductosDetalle.Add(detalle);
+        detalle = new ProductosDetalle();   
+    }
+
+    void EliminarDetalle(ProductosDetalle detalle)
+    {
+        var detalleEncontado = producto.ProductosDetalle.Find(d => d.DetalleId == detalle.DetalleId);
+        if(detalleEncontado != null)
+        {
+            detalle = detalleEncontado;
+            producto.ProductosDetalle.Remove(detalle); 
+        }
+          
+    }
+    
+}
