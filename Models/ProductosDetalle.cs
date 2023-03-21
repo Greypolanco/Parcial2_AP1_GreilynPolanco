@@ -5,5 +5,5 @@ public class ProductosDetalle
     public int ProductoId { get; set; }
     public string Descripcion { get; set; } = string.Empty;
     public int Cantidad { get; set; }
-    public float Peso { get; set; }
+    public double Peso { get; set; }
 }
