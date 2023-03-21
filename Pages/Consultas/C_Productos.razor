@@ -1,0 +1,25 @@
+@page "/consulta"
+
+@inject ProductosBLL productobll
+
+<EditForm Model="Lista">
+    <DataAnnotationsValidator/>
+    <select class="form-control">Filtrar</select>
+        <option value="1">ProductoId</option>
+        <option value="2">Fecha</option>
+        <option value="3">Concepto</option>
+
+</EditForm>
+
+@code{
+    public string Filtrar { get; set; } = string.Empty;
+    public string Criterios { get; set; } = string.Empty;
+    public List<Productos> Lista { get; set; } = new List<Productos>();
+    protected override void OnInitialized()
+    {
+        Buscar();
+    }
+    public void Buscar(){
+        Lista = productobll.GetList(p => true);
+    }
+}
