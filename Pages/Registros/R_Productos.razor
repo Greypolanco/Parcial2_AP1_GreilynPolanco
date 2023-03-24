@@ -63,13 +63,14 @@
                                     <td>@Item.ProductoId</td>
                                     <td>@Item.Descripcion</td>
                                     <td>@Item.Cantidad</td>
-                                    <td><button class="btn btn-sm btn-outline-secondary io io-x" @onclick=@(() => EliminarDetalle(Item))></button></td>
+                                    <td><button class="btn btn-danger oi oi-x" @onclick=@(() => EliminarDetalle(Item))></button></td>
                                     <td>@Item.DetalleId</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-                    
+                    <label class="form-label">Cantidad Total</label>
+                    <InputNumber @bind-Value="detalle.Cantidad" class='form-control'></InputNumber>
                     <div class="card">
                         <h1>Producidos</h1>
                         <div class="card-body">
