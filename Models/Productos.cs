@@ -3,8 +3,8 @@ public class Productos
 {
     [Key]
     public int ProductoId { get; set; }
-    public DateTime Fecha { get; set; }
-    public string Concepto { get; set; } = string.Empty;
-    [ForeignKey("ProductoId")]
-    public virtual List<ProductosDetalle> ProductosDetalle { get; set; } = new List<ProductosDetalle>();
+    public string Descripcion { get; set; } = string.Empty;
+    public float Costo { get; set; }
+    public float Precio { get; set; }
+    public int Existencia { get; set; }
 }
