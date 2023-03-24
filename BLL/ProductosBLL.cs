@@ -8,6 +8,6 @@ public class ProductosBLL
     }
 
     public List<Productos> GetList(Expression<Func<Productos, bool>>criterios){
-        return _contexto.Productos.Include(p => p.ProductosDetalle).AsNoTracking().Where(criterios).ToList();
+        return _contexto.Productos.AsNoTracking().Where(criterios).ToList();
     }
 }
