@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Parcial2_AP1_GreilynPolanco.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20230320231833_Inicial")]
+    [Migration("20230324024110_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -41,25 +41,25 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                         {
                             ProductoId = 1,
                             Concepto = "Many",
-                            Fecha = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local)
+                            Fecha = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             ProductoId = 2,
                             Concepto = "Pasas",
-                            Fecha = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local)
+                            Fecha = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             ProductoId = 3,
                             Concepto = "Ciruela",
-                            Fecha = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local)
+                            Fecha = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
                             ProductoId = 4,
                             Concepto = "Arandanos",
-                            Fecha = new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local)
+                            Fecha = new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
@@ -76,7 +76,7 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProductoId")
+                    b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DetalleId");
@@ -90,7 +90,9 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                 {
                     b.HasOne("Productos", null)
                         .WithMany("ProductosDetalle")
-                        .HasForeignKey("ProductoId");
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Productos", b =>

@@ -33,9 +33,9 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                 {
                     DetalleId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ProductoId = table.Column<int>(type: "INTEGER", nullable: false),
                     Descripcion = table.Column<string>(type: "TEXT", nullable: false),
-                    Cantidad = table.Column<int>(type: "INTEGER", nullable: false),
-                    ProductoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Cantidad = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,8 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                         name: "FK_ProductosDetalle_Productos_ProductoId",
                         column: x => x.ProductoId,
                         principalTable: "Productos",
-                        principalColumn: "ProductoId");
+                        principalColumn: "ProductoId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -52,10 +53,10 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                 columns: new[] { "ProductoId", "Concepto", "Fecha" },
                 values: new object[,]
                 {
-                    { 1, "Many", new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 2, "Pasas", new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 3, "Ciruela", new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local) },
-                    { 4, "Arandanos", new DateTime(2023, 3, 20, 0, 0, 0, 0, DateTimeKind.Local) }
+                    { 1, "Many", new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 2, "Pasas", new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 3, "Ciruela", new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local) },
+                    { 4, "Arandanos", new DateTime(2023, 3, 23, 0, 0, 0, 0, DateTimeKind.Local) }
                 });
 
             migrationBuilder.CreateIndex(
