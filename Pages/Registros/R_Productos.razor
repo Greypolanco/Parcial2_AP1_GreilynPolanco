@@ -1,30 +1,35 @@
 @page "/productos"
 
 @inject ProductosBLL productobll
-<EditForm Model="producto" >
+@inject EmpacadosBLL empacadobll
+@inject NotificationService notificationService
+
+<EditForm Model="producto" OnInvalidSubmit="Guardar" >
     <DataAnnotationsValidator/>
     <div class="card">
         <div class="card-header">
             <h1>Entrada de Productos Empacados</h1>
         </div>
         <div class="card-body">
-            
+             @* No. de Producto y boton de buscar *@
             <div class='col-md-6'>
                 <label class="form-label">No. Producto</label>
                 <InputNumber id="numero" @bind-Value="empacado.EmpacadoId" class="form-control"></InputNumber>
-                <button id="buscar" type="button" class="btn btn-info oi oi-magnifying-glass"></button>
+                <button id="buscar" type="button" class="btn btn-info oi oi-magnifying-glass" @onclick = "Buscar"></button>
             </div>
             
+             @* Fecha *@
             <div class="form-group">
                 <label class="form-label">Fecha</label>
                 <InputDate  id="Fecha" @bind-Value="empacado.Fecha" class="form-control"/>
             </div>
+             @* Concepto *@
             <div>
                 <label class="form-label">Concepto</label>
                 <InputText @bind-Value="empacado.Concepto" class="form-control"></InputText>
             </div>
         </div>
-        
+             @* Detalle de Empacados (Utilizados) *@
             <div class="card">
                 <div class="card-header">
                     <h3>Utilizados</h3>
@@ -32,6 +37,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+                             @* Prodcutos *@
                             <label class="form-label">Productos</label>
                             <InputSelect @bind-Value=detalle.ProductoId class='form-control'>
                                 @foreach (Productos producto in Lista)
@@ -40,10 +46,12 @@
                                 }
                             </InputSelect>
                         </div>
+                         @* Cantidad a agg de cada producto *@
                         <div class="col-md-6">
                             <label class="from-label">Cantidad</label>
                             <InputNumber @bind-Value="detalle.Cantidad" class="form-control"></InputNumber>
                         </div>
+                         @* Boton de agg Detalle *@
                         <div class="cold-md-6">
                             <button type="button" class="btn btn-success oi oi-plus" @onclick="AggDetalle"></button>
                         </div>
@@ -59,17 +67,24 @@
                         <tbody>
                             @foreach(var Item in empacado.EmpacadosDetalle)
                             {
-                                <tr>
+                                var producto = productobll.Buscar(Item.ProductoId);
+                                @if(producto != null){
+                                    <tr>
                                     <td>@Item.ProductoId</td>
-                                    <td>@Item.Descripcion</td>
+                                    <td>@producto.Descripcion</td>
                                     <td>@Item.Cantidad</td>
+                                     @* Boton de Eliminar *@
                                     <td><button class="btn btn-danger oi oi-x" @onclick=@(() => EliminarDetalle(Item))></button></td>
                                 </tr>
+                                }
+                                
                             }
                         </tbody>
                     </table>
+                     @* Cantidad total y su sumatoria *@
                     <label class="form-label">Cantidad Total : @empacado.EmpacadosDetalle.Sum(c => c.Cantidad)</label> 
-                
+
+                     @* Producidos *@
                     <div class="card">
                         <h1>Producidos</h1>
                         <div class="card-body">
@@ -83,9 +98,10 @@
                                     }
                                     </InputSelect>
                                 </div>
+                                 @* Cantidad de Producidos *@
                                 <div class="col-md-6">
                                     <label class="from-label">Cantidad</label>
-                                    <InputNumber @bind-Value="detalle.Cantidad" class="form-control" readonly></InputNumber>
+                                    <InputNumber @bind-Value="empacado.Cantidad" class="form-control" ></InputNumber>
                                 </div>
                             </div>
                             
@@ -94,11 +110,11 @@
                 </div>
             
             </div>
-        
+         @* Botones *@
         <div class="card-footer">
             <button type="button" class="btn btn-primary" @onclick = "Nuevo">Nuevo</button>
-            <button type="button" class="btn btn-success">Guardar</button>
-            <button type="button" class="btn btn-danger">Eliminar</button>
+            <button type="button" class="btn btn-success" @onclick="Guardar">Guardar</button>
+            <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
             
         </div>
     </div>
@@ -112,11 +128,47 @@
     public EmpacadosDetalle detalle { get; set; } = new EmpacadosDetalle();
 
     void Nuevo(){
-        producto = new Productos();
+        empacado = new Empacados();
     }
-    
+    void Buscar(){
+        var empacadoInicial = empacadobll.Buscar(empacado.EmpacadoId);
+        if(empacadoInicial != null){
+            empacado = empacadoInicial;
+        }
+    }
     void Guardar(){
-        
+        if(!Validar())
+            return;
+        if(empacadobll.Guardar(empacado)){
+            ShowNotification(
+                new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Guardado Correctamente"
+                });
+            this.Nuevo();
+        }
+        else{
+            ShowNotification(
+                new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Error,
+                    Summary = " No Guardado Correctamente"
+                });
+        }
+    }
+
+    void Eliminar(){
+        if(empacadobll.Eliminar(empacado))
+        {
+            ShowNotification(
+                new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Eliminado Correctamente"
+                });
+            this.Nuevo();
+        }
     }
     protected override void OnInitialized()
     {
@@ -136,6 +188,19 @@
             detalle = detalleEncontado;
             empacado.EmpacadosDetalle.Remove(detalle); 
         }
+    }
+
+    bool Validar(){
+        if(string.IsNullOrEmpty(empacado.Concepto))
+            return false;
+        else
+            return true;
+    }
+
+    void ShowNotification(NotificationMessage message)
+    {
+        notificationService.Notify(message);
+
     }
     
 }
