@@ -14,6 +14,7 @@ public class EmpacadosBLL
     {
         try{
             _contexto.Empacados.Add(empacado);
+            _contexto.Entry(empacado).State = EntityState.Detached;
             return _contexto.SaveChanges() > 0;
         }
         catch(Exception)
@@ -30,6 +31,7 @@ public class EmpacadosBLL
                 _contexto.Entry(New).State = EntityState.Added;
             }
             _contexto.Entry(empacado).State = EntityState.Modified;
+            _contexto.Entry(empacado).State = EntityState.Detached;
             return _contexto.SaveChanges() > 0;
         }
         catch(Exception)
@@ -54,6 +56,7 @@ public class EmpacadosBLL
     {
         try{
             _contexto.Entry(empacado).State = EntityState.Deleted;
+            _contexto.Entry(empacado).State = EntityState.Detached;
             return _contexto.SaveChanges() > 0;
         }
         catch(Exception)
