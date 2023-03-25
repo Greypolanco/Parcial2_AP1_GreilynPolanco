@@ -6,6 +6,6 @@ public class Empacados
     public DateOnly Fecha { get; set; } 
     public string Concepto { get; set; } = string.Empty;
     public int Cantidad { get; set; }
-    [ForeignKey("ProductoId")]
+    [ForeignKey("EmpacadoId")]
     public virtual List<EmpacadosDetalle> EmpacadosDetalle { get; set; } = new List<EmpacadosDetalle>();
 }
