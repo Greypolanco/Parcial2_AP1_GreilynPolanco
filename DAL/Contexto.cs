@@ -17,7 +17,7 @@ public class Contexto : DbContext
                 Costo=30,
                 Precio =50,
                 Existencia=30,
-                Descripcion = "Many"
+                Descripcion = "Maní"
             },
 
             new Productos{
