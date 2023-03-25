@@ -3,7 +3,7 @@ public class Empacados
 {
     [Key]
     public int EmpacadoId { get; set; }
-    public DateOnly Fecha { get; set; } 
+    public DateTime Fecha { get; set; }  = DateTime.Today;
     public string Concepto { get; set; } = string.Empty;
     [ForeignKey("EmpacadoId")]
     public virtual List<EmpacadosDetalle> EmpacadosDetalle { get; set; } = new List<EmpacadosDetalle>();
