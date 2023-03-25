@@ -2,13 +2,21 @@ global using Microsoft.EntityFrameworkCore;
 global using System.ComponentModel.DataAnnotations;
 global using System.Linq.Expressions;
 global using System.ComponentModel.DataAnnotations.Schema;
+global using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var ConStr = builder.Configuration.GetConnectionString("ConStr");
 builder.Services.AddDbContext<Contexto>(opcion => opcion.UseSqlite(ConStr));
+//bll de producto
 builder.Services.AddScoped<ProductosBLL>();
+//bll de empacados
 builder.Services.AddScoped<EmpacadosBLL>();
+// Radzen
+builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<ContextMenuService>();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
