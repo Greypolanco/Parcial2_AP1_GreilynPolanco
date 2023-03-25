@@ -8,7 +8,6 @@
     <DataAnnotationsValidator />
 
     <table class="table">
-
         <thead>
             <tr>
                 <th>Descripcion</th>
@@ -33,4 +32,12 @@
 
 @code{
     public List<Productos> Lista { get; set; } = new List<Productos>();
+
+    protected override void OnInitialized()
+    {
+        Buscar();
+    }
+    public void Buscar(){
+        Lista = productobll.GetList(p => true);
+    }
 }
