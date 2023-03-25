@@ -1,14 +1,54 @@
-@page "/consulta"
+@page "/producto"
 
 @inject ProductosBLL productobll
 
-<EditForm Model="Lista">
-    <DataAnnotationsValidator/>
-    <select class="form-control">Filtrar</select>
-        <option value="1">ProductoId</option>
-        <option value="2">Fecha</option>
-        <option value="3">Concepto</option>
+<PageTitle>Registro</PageTitle>
 
+<EditForm Model="Lista">
+    <DataAnnotationsValidator />
+
+    <div  class="row">
+        <label class="form-label">Filtro</label>
+        <select class="form-control" @bind="Filtrar">
+            <option value="1">ProductoId</option>
+            <option value="2">Descripcion</option> 
+            <option value="3">Costo</option> 
+            <option value="4">Precio</option>
+            <option value="5">Existencia</option>
+        </select>
+    </div>
+
+    <label class="form-control">Criterio</label>
+    <input type="text" class="form-control" @bind="Criterios">
+
+    <div>
+        <button type="button" @onclick="Buscar">
+            <i>Buscar</i>
+        </button>
+    </div>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Descripcion</th>
+                <th>Costo</th>
+                <th>Precio</th>
+                <th>Existencia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Item in Lista)
+            {
+                <tr>
+                    <td>@Item.Descripcion</td>
+                    <td>@Item.Costo</td>
+                    <td>@Item.Precio</td>
+                    <td>@Item.Existencia</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </EditForm>
 
 @code{
