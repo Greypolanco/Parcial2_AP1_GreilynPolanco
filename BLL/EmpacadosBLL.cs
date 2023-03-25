@@ -24,7 +24,7 @@ public class EmpacadosBLL
     public bool Modificar(Empacados empacado)
     {
         try{
-            _contexto.Database.ExecuteSqlRaw($"DELETE FROM EmpacadoDetalle WHERE EmpacadoId = {empacado.EmpacadoId}");
+            _contexto.Database.ExecuteSqlRaw($"DELETE FROM EmpacadosDetalle WHERE EmpacadoId = {empacado.EmpacadoId}");
             foreach (var New in empacado.EmpacadosDetalle)
             {
                 _contexto.Entry(New).State = EntityState.Added;
