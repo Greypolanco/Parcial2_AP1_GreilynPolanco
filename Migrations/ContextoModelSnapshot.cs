@@ -29,8 +29,11 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("Fecha")
+                    b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("EmpacadoId");
 
@@ -87,7 +90,7 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                         {
                             ProductoId = 1,
                             Costo = 30f,
-                            Descripcion = "Many",
+                            Descripcion = "Maní",
                             Existencia = 30,
                             Precio = 50f
                         },

@@ -19,9 +19,10 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                 {
                     EmpacadoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Fecha = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Concepto = table.Column<string>(type: "TEXT", nullable: false),
-                    Cantidad = table.Column<int>(type: "INTEGER", nullable: false)
+                    Cantidad = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProductoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,7 +71,7 @@ namespace Parcial2_AP1_GreilynPolanco.Migrations
                 columns: new[] { "ProductoId", "Costo", "Descripcion", "Existencia", "Precio" },
                 values: new object[,]
                 {
-                    { 1, 30f, "Many", 30, 50f },
+                    { 1, 30f, "Maní", 30, 50f },
                     { 2, 20f, "Pasas", 25, 40f },
                     { 3, 50f, "Ciruela", 30, 70f },
                     { 4, 65f, "Arandanos", 20, 90f }
